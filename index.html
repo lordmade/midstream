@@ -3,21 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StreamVibe Splash</title>
+  <title>StreamVibe</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap');
+
     :root {
-      --electric-cyan: #00F5D4;
-      --deep-indigo: #2B2D42;
-      --vivid-magenta: #FF2A6D;
-      --soft-white: #F5F7FA;
-      --light-gray: #D9E1E8;
-      --background: radial-gradient(circle at center, #2B2D42 0%, #1A1B2E 100%);
+      --brand-red: #E50914;
+      --bg-dark: #141414;
+      --bg-black: #000000;
+      --text-main: #FFFFFF;
+      --text-muted: #808080;
+      --alert-bg: #181818;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      background: var(--background);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-black);
+      background-image: radial-gradient(circle at 50% 50%, #2b0205 0%, var(--bg-black) 75%);
       min-height: 100vh;
       margin: 0;
       padding: 0;
@@ -25,10 +28,11 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.8s ease-in-out;
       position: relative;
     }
 
+    /* Cinematic subtle grid overlay */
     body::before {
       content: '';
       position: absolute;
@@ -36,9 +40,10 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at 50% 50%, rgba(0, 245, 212, 0.2), transparent 70%);
-      animation: shimmer 3s ease-in-out infinite;
-      z-index: 1;
+      background-image: linear-gradient(rgba(20, 20, 20, 0.85), rgba(20, 20, 20, 0.85)),
+                        url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0wIDAuNWg0ME0wIDEwLjVoNDBNMCAyMC41aDQwTTAgMzAuNWg0ME0wLjUgMHY0ME0xMC41IDB2NDBNMjAuNSAwdjQwTTMwLjUgMHY0MCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDMpIi8+PC9zdmc+');
+      z-index: 0;
+      pointer-events: none;
     }
 
     body.fade-out {
@@ -49,128 +54,100 @@
       text-align: center;
       position: relative;
       z-index: 10;
+      animation: cinematicZoom 2.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
     }
 
-    .logo-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-      margin: 0 auto;
-    }
-
-    .stream-logo {
-      width: 140px;
-      height: 140px;
-      animation: wavePulse 2.5s ease-in-out infinite;
-    }
-
-    .loader {
-      display: flex;
-      gap: 12px;
-    }
-
-    .dot {
-      width: 16px;
-      height: 16px;
-      background: linear-gradient(45deg, var(--electric-cyan), var(--vivid-magenta));
-      border-radius: 50%;
-      animation: orbit 1.5s ease-in-out infinite;
-    }
-
-    .dot:nth-child(2) {
-      animation-delay: 0.3s;
-    }
-
-    .dot:nth-child(3) {
-      animation-delay: 0.6s;
-    }
-
-    @keyframes orbit {
-      0%, 100% {
-        transform: translateY(0) scale(1);
-        opacity: 0.8;
-      }
-      50% {
-        transform: translateY(-12px) scale(1.2);
-        opacity: 0.5;
-      }
-    }
-
-    @keyframes wavePulse {
-      0% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 8px rgba(0, 245, 212, 0.5));
-      }
-      50% {
-        transform: scale(1.15);
-        filter: drop-shadow(0 0 20px rgba(0, 245, 212, 0.8));
-      }
-      100% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 8px rgba(0, 245, 212, 0.5));
-      }
-    }
-
-    @keyframes shimmer {
-      0%, 100% {
-        opacity: 0.3;
-      }
-      50% {
-        opacity: 0.6;
-      }
-    }
-
-    .splash-text {
-      color: var(--soft-white);
-      font-weight: 800;
-      font-size: 2rem;
-      letter-spacing: 0.8px;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-      animation: fadeInUp 1.2s ease-out 0.6s forwards;
+    .logo-text {
+      font-family: 'Bebas Neue', cursive;
+      color: var(--brand-red);
+      font-size: 6rem;
+      letter-spacing: 3px;
+      margin: 0;
+      text-shadow: 0 4px 20px rgba(229, 9, 20, 0.4);
+      transform: scale(0.9);
       opacity: 0;
+      animation: logoReveal 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.3s forwards;
     }
 
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-top-color: var(--brand-red);
+      border-radius: 50%;
+      margin: 2rem auto 0;
+      opacity: 0;
+      /* Fades in after the logo, then spins infinitely */
+      animation: fadeIn 0.5s ease-out 1s forwards, spin 1s linear infinite 1s;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes cinematicZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.05); }
+    }
+
+    @keyframes logoReveal {
+      0% { opacity: 0; transform: scale(0.85) translateY(15px); filter: blur(8px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    /* Netflix-Style Custom Alert */
     .custom-alert {
       display: none;
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: var(--deep-indigo);
-      padding: 1.75rem 2.5rem;
-      border-radius: 16px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+      background: var(--alert-bg);
+      padding: 2rem 2.5rem;
+      border-radius: 4px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
       z-index: 1000;
-      color: var(--soft-white);
-      font-weight: 500;
+      color: var(--text-main);
       text-align: center;
-      max-width: 90%;
-      width: 360px;
-      animation: fadeIn 0.4s ease-out forwards;
-      border: 1px solid var(--light-gray);
+      width: 90%;
+      max-width: 420px;
+      animation: alertFade 0.3s ease-out forwards;
+      border: 1px solid #333;
     }
 
     .custom-alert.active {
       display: block;
     }
 
+    .custom-alert p {
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-top: 0.5rem;
+      margin-bottom: 1.75rem;
+      color: #D2D2D2;
+    }
+
     .custom-alert .close-btn {
       position: absolute;
-      top: 0.75rem;
-      right: 0.75rem;
-      width: 28px;
-      height: 28px;
+      top: 1rem;
+      right: 1rem;
+      width: 24px;
+      height: 24px;
       background: none;
       border: none;
-      color: var(--electric-cyan);
+      color: var(--text-muted);
       cursor: pointer;
-      transition: transform 0.2s ease, color 0.2s ease;
+      transition: color 0.2s ease;
     }
 
     .custom-alert .close-btn:hover {
-      transform: scale(1.2);
-      color: var(--vivid-magenta);
+      color: var(--text-main);
     }
 
     .custom-alert .close-btn svg {
@@ -179,92 +156,50 @@
     }
 
     .custom-alert .retry-btn {
-      margin-top: 1.25rem;
-      padding: 0.6rem 1.75rem;
-      background: var(--vivid-magenta);
-      color: var(--soft-white);
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--text-main);
+      color: var(--bg-black);
       border: none;
-      border-radius: 24px;
+      border-radius: 4px;
       font-weight: 600;
+      font-size: 1.05rem;
       cursor: pointer;
-      transition: background 0.2s ease, transform 0.2s ease;
+      transition: background-color 0.2s ease, opacity 0.2s ease;
     }
 
     .custom-alert .retry-btn:hover {
-      background: #E0245E;
-      transform: scale(1.05);
+      background: #E5E5E5;
+      opacity: 0.9;
     }
 
-    @keyframes fadeInUp {
-      0% { opacity: 0; transform: translateY(25px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
+    @keyframes alertFade {
+      0% { opacity: 0; transform: translate(-50%, -45%); }
+      100% { opacity: 1; transform: translate(-50%, -50%); }
     }
 
     @media (max-width: 640px) {
-      .logo-container {
-        gap: 1rem;
+      .logo-text {
+        font-size: 3.5rem;
+        letter-spacing: 1.5px;
       }
-
-      .stream-logo {
-        width: 100px;
-        height: 100px;
+      .spinner {
+        width: 36px;
+        height: 36px;
+        border-width: 3px;
+        margin-top: 1.5rem;
       }
-
-      .loader {
-        gap: 8px;
-      }
-
-      .dot {
-        width: 12px;
-        height: 12px;
-      }
-
-      .splash-text {
-        font-size: 1.5rem;
-      }
-
       .custom-alert {
-        width: 90%;
         padding: 1.5rem;
-      }
-
-      .custom-alert .retry-btn {
-        padding: 0.5rem 1.5rem;
-        font-size: 0.95rem;
       }
     }
   </style>
 </head>
 <body>
   <div class="splash-container">
-    <div class="logo-container">
-      <svg class="stream-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="45" stroke="url(#grad)" stroke-width="6" />
-        <path d="M35 30 L70 50 L35 70 Z" fill="url(#grad)" />
-        <g class="waves">
-          <circle cx="50" cy="50" r="30" stroke="url(#grad)" stroke-width="3" opacity="0.6" />
-          <circle cx="50" cy="50" r="35" stroke="url(#grad)" stroke-width="3" opacity="0.4" />
-          <circle cx="50" cy="50" r="40" stroke="url(#grad)" stroke-width="3" opacity="0.2" />
-        </g>
-        <defs>
-          <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#00F5D4;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#FF2A6D;stop-opacity:1" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <div class="loader">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-      </div>
-    </div>
-    <p class="splash-text">StreamVibe: Unleash Your Live</p>
+    <h1 class="logo-text">STREAMVIBE</h1>
+    
+    <div class="spinner"></div>
   </div>
 
   <div id="custom-alert" class="custom-alert">
@@ -275,7 +210,7 @@
       </svg>
     </button>
     <p id="alert-message">An error occurred. Please try again later.</p>
-    <button class="retry-btn" onclick="retryAuth()">Retry</button>
+    <button class="retry-btn" onclick="retryAuth()">Retry Connection</button>
   </div>
 
   <script type="module">
@@ -300,16 +235,22 @@
     const customAlert = document.getElementById("custom-alert");
     const alertMessage = document.getElementById("alert-message");
 
+    // Expose functions to global scope for HTML inline handlers
+    window.hideAlert = function() {
+      customAlert.classList.remove("active");
+    }
+
+    window.retryAuth = function() {
+      hideAlert();
+      checkAuthState();
+    }
+
     function showAlert(message, autoHide = true) {
       alertMessage.textContent = message;
       customAlert.classList.add("active");
       if (autoHide) {
         setTimeout(hideAlert, 5000);
       }
-    }
-
-    function hideAlert() {
-      customAlert.classList.remove("active");
     }
 
     async function checkAuthState(retries = 3, delay = 1000) {
@@ -322,16 +263,18 @@
                   const userRef = ref(db, `users/${user.uid}`);
                   const snapshot = await get(userRef);
                   const destination = snapshot.exists() ? "dashboard.html" : "signup.html";
-                  document.body.classList.add("fade-out");
+                  
+                  // Allow animation to play slightly longer for the cinematic feel before fading out
                   setTimeout(() => {
-                    window.location.href = destination;
-                  }, 1500);
+                    document.body.classList.add("fade-out");
+                    setTimeout(() => { window.location.href = destination; }, 800);
+                  }, 2000); 
                   resolve();
                 } else {
-                  document.body.classList.add("fade-out");
                   setTimeout(() => {
-                    window.location.href = "signup.html";
-                  }, 1500);
+                    document.body.classList.add("fade-out");
+                    setTimeout(() => { window.location.href = "signup.html"; }, 800);
+                  }, 2000);
                   resolve();
                 }
               } catch (error) {
@@ -355,11 +298,6 @@
           }
         }
       }
-    }
-
-    function retryAuth() {
-      hideAlert();
-      checkAuthState();
     }
 
     document.addEventListener("DOMContentLoaded", () => {
