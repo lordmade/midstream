@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StreamVibe</title>
+  <title>StreamVibe | Sign In</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap');
@@ -18,7 +18,7 @@
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: var(--bg-black);
       background-image: radial-gradient(circle at 50% 50%, #2b0205 0%, var(--bg-black) 75%);
       min-height: 100vh;
@@ -27,12 +27,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
-      transition: opacity 0.8s ease-in-out;
+      overflow-x: hidden;
       position: relative;
     }
 
-    /* Cinematic subtle grid overlay */
     body::before {
       content: '';
       position: absolute;
@@ -46,177 +44,211 @@
       pointer-events: none;
     }
 
-    body.fade-out {
-      opacity: 0;
-    }
-
-    .splash-container {
-      text-align: center;
+    .main-container {
       position: relative;
       z-index: 10;
-      animation: cinematicZoom 2.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 450px;
+      padding: 2rem;
     }
 
     .logo-text {
       font-family: 'Bebas Neue', cursive;
       color: var(--brand-red);
-      font-size: 6rem;
-      letter-spacing: 3px;
+      font-size: 5rem;
+      letter-spacing: 2px;
       margin: 0;
       text-shadow: 0 4px 20px rgba(229, 9, 20, 0.4);
-      transform: scale(0.9);
       opacity: 0;
-      animation: logoReveal 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.3s forwards;
+      transform: scale(0.9) translateY(20px);
+      transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+      animation: logoReveal 1s cubic-bezier(0.19, 1, 0.22, 1) 0.2s forwards;
+    }
+
+    .logo-text.auth-mode {
+      transform: scale(0.7) translateY(-20px);
+      margin-bottom: 1rem;
     }
 
     .spinner {
-      width: 48px;
-      height: 48px;
-      border: 4px solid rgba(255, 255, 255, 0.1);
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
       border-top-color: var(--brand-red);
       border-radius: 50%;
-      margin: 2rem auto 0;
+      margin-top: 2rem;
       opacity: 0;
-      /* Fades in after the logo, then spins infinitely */
-      animation: fadeIn 0.5s ease-out 1s forwards, spin 1s linear infinite 1s;
+      transition: opacity 0.3s ease;
+      animation: fadeIn 0.5s ease-out 0.8s forwards, spin 1s linear infinite 0.8s;
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    /* Auth Form Styles */
+    .auth-box {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      border-radius: 8px;
+      padding: 3rem 4rem;
+      box-sizing: border-box;
+      opacity: 0;
+      display: none;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
-    @keyframes cinematicZoom {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.05); }
+    .auth-box.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    @keyframes logoReveal {
-      0% { opacity: 0; transform: scale(0.85) translateY(15px); filter: blur(8px); }
-      100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+    .auth-title {
+      color: var(--text-main);
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      margin-top: 0;
     }
 
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
+    .input-group {
+      margin-bottom: 1rem;
+      position: relative;
     }
 
-    /* Netflix-Style Custom Alert */
+    .input-group input {
+      width: 100%;
+      padding: 1rem;
+      background: #333;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      color: var(--text-main);
+      font-size: 1rem;
+      box-sizing: border-box;
+      transition: background 0.2s, border 0.2s;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      background: #444;
+      border-color: var(--text-muted);
+    }
+
+    .auth-btn {
+      width: 100%;
+      padding: 1rem;
+      background: var(--brand-red);
+      color: var(--text-main);
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: background 0.2s ease;
+    }
+
+    .auth-btn:hover {
+      background: #f40612;
+    }
+
+    .auth-btn:disabled {
+      background: #80050b;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .auth-toggle {
+      margin-top: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .auth-toggle span {
+      color: var(--text-main);
+      cursor: pointer;
+      margin-left: 0.25rem;
+    }
+
+    .auth-toggle span:hover {
+      text-decoration: underline;
+    }
+
+    /* Custom Alert */
     .custom-alert {
       display: none;
       position: fixed;
-      top: 50%;
+      top: 20px;
       left: 50%;
-      transform: translate(-50%, -50%);
-      background: var(--alert-bg);
-      padding: 2rem 2.5rem;
+      transform: translateX(-50%);
+      background: var(--brand-red);
+      padding: 1rem 1.5rem;
       border-radius: 4px;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
       z-index: 1000;
       color: var(--text-main);
       text-align: center;
       width: 90%;
-      max-width: 420px;
-      animation: alertFade 0.3s ease-out forwards;
-      border: 1px solid #333;
+      max-width: 400px;
+      animation: alertSlideDown 0.3s ease-out forwards;
     }
 
-    .custom-alert.active {
-      display: block;
-    }
+    .custom-alert.active { display: flex; align-items: center; justify-content: space-between; }
+    .custom-alert p { margin: 0; font-size: 0.95rem; font-weight: 500; }
+    .custom-alert .close-btn { background: none; border: none; color: white; cursor: pointer; padding: 0; display: flex; }
 
-    .custom-alert p {
-      font-size: 1.1rem;
-      font-weight: 400;
-      margin-top: 0.5rem;
-      margin-bottom: 1.75rem;
-      color: #D2D2D2;
-    }
-
-    .custom-alert .close-btn {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      width: 24px;
-      height: 24px;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: color 0.2s ease;
-    }
-
-    .custom-alert .close-btn:hover {
-      color: var(--text-main);
-    }
-
-    .custom-alert .close-btn svg {
-      width: 100%;
-      height: 100%;
-    }
-
-    .custom-alert .retry-btn {
-      width: 100%;
-      padding: 0.85rem;
-      background: var(--text-main);
-      color: var(--bg-black);
-      border: none;
-      border-radius: 4px;
-      font-weight: 600;
-      font-size: 1.05rem;
-      cursor: pointer;
-      transition: background-color 0.2s ease, opacity 0.2s ease;
-    }
-
-    .custom-alert .retry-btn:hover {
-      background: #E5E5E5;
-      opacity: 0.9;
-    }
-
-    @keyframes alertFade {
-      0% { opacity: 0; transform: translate(-50%, -45%); }
-      100% { opacity: 1; transform: translate(-50%, -50%); }
-    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    @keyframes logoReveal { 100% { opacity: 1; transform: scale(1) translateY(0); } }
+    @keyframes fadeIn { 100% { opacity: 1; } }
+    @keyframes alertSlideDown { 0% { opacity: 0; top: -20px; } 100% { opacity: 1; top: 20px; } }
 
     @media (max-width: 640px) {
-      .logo-text {
-        font-size: 3.5rem;
-        letter-spacing: 1.5px;
-      }
-      .spinner {
-        width: 36px;
-        height: 36px;
-        border-width: 3px;
-        margin-top: 1.5rem;
-      }
-      .custom-alert {
-        padding: 1.5rem;
-      }
+      .logo-text { font-size: 3.5rem; }
+      .auth-box { padding: 2rem; background: rgba(0,0,0,0.85); }
+      .main-container { padding: 1rem; }
     }
   </style>
 </head>
 <body>
-  <div class="splash-container">
-    <h1 class="logo-text">STREAMVIBE</h1>
+
+  <div class="main-container">
+    <h1 id="logo" class="logo-text">STREAMVIBE</h1>
     
-    <div class="spinner"></div>
+    <div id="loader" class="spinner"></div>
+
+    <div id="auth-container" class="auth-box">
+      <h2 id="auth-title" class="auth-title">Sign In</h2>
+      <form id="auth-form">
+        <div class="input-group">
+          <input type="email" id="email" placeholder="Email address" required autocomplete="email" />
+        </div>
+        <div class="input-group">
+          <input type="password" id="password" placeholder="Password" required autocomplete="current-password" />
+        </div>
+        <button type="submit" id="submit-btn" class="auth-btn">Sign In</button>
+      </form>
+      <div class="auth-toggle">
+        <span id="toggle-text">New to StreamVibe?</span> 
+        <span id="toggle-action" style="font-weight: 500;">Sign up now.</span>
+      </div>
+    </div>
   </div>
 
   <div id="custom-alert" class="custom-alert">
+    <p id="alert-message">Error</p>
     <button class="close-btn" onclick="hideAlert()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg>
     </button>
-    <p id="alert-message">An error occurred. Please try again later.</p>
-    <button class="retry-btn" onclick="retryAuth()">Retry Connection</button>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBOyZ3As4GTuNvjemvPF_SpsC6m6vqtNhc",
@@ -232,76 +264,125 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getDatabase(app);
-    const customAlert = document.getElementById("custom-alert");
-    const alertMessage = document.getElementById("alert-message");
 
-    // Expose functions to global scope for HTML inline handlers
-    window.hideAlert = function() {
-      customAlert.classList.remove("active");
-    }
+    // UI Elements
+    const logo = document.getElementById('logo');
+    const loader = document.getElementById('loader');
+    const authContainer = document.getElementById('auth-container');
+    const authForm = document.getElementById('auth-form');
+    const authTitle = document.getElementById('auth-title');
+    const submitBtn = document.getElementById('submit-btn');
+    const toggleAction = document.getElementById('toggle-action');
+    const toggleText = document.getElementById('toggle-text');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    
+    // Alert Elements
+    const customAlert = document.getElementById('custom-alert');
+    const alertMessage = document.getElementById('alert-message');
 
-    window.retryAuth = function() {
-      hideAlert();
-      checkAuthState();
-    }
+    let isLoginMode = true;
+    let isCheckingAuth = true;
 
-    function showAlert(message, autoHide = true) {
+    window.hideAlert = () => {
+      customAlert.classList.remove('active');
+    };
+
+    function showAlert(message) {
       alertMessage.textContent = message;
-      customAlert.classList.add("active");
-      if (autoHide) {
-        setTimeout(hideAlert, 5000);
-      }
+      customAlert.classList.add('active');
+      setTimeout(window.hideAlert, 5000);
     }
 
-    async function checkAuthState(retries = 3, delay = 1000) {
-      for (let attempt = 1; attempt <= retries; attempt++) {
-        try {
-          await new Promise((resolve, reject) => {
-            onAuthStateChanged(auth, async (user) => {
-              try {
-                if (user) {
-                  const userRef = ref(db, `users/${user.uid}`);
-                  const snapshot = await get(userRef);
-                  const destination = snapshot.exists() ? "dashboard.html" : "signup.html";
-                  
-                  // Allow animation to play slightly longer for the cinematic feel before fading out
-                  setTimeout(() => {
-                    document.body.classList.add("fade-out");
-                    setTimeout(() => { window.location.href = destination; }, 800);
-                  }, 2000); 
-                  resolve();
-                } else {
-                  setTimeout(() => {
-                    document.body.classList.add("fade-out");
-                    setTimeout(() => { window.location.href = "signup.html"; }, 800);
-                  }, 2000);
-                  resolve();
-                }
-              } catch (error) {
-                reject(error);
-              }
-            }, reject);
+    function showAuthUI() {
+      loader.style.opacity = '0';
+      setTimeout(() => {
+        loader.style.display = 'none';
+        logo.classList.add('auth-mode');
+        authContainer.classList.add('active');
+      }, 300);
+    }
+
+    // Toggle between Sign In and Sign Up
+    toggleAction.addEventListener('click', () => {
+      isLoginMode = !isLoginMode;
+      authTitle.textContent = isLoginMode ? 'Sign In' : 'Sign Up';
+      submitBtn.textContent = isLoginMode ? 'Sign In' : 'Create Account';
+      toggleText.textContent = isLoginMode ? 'New to StreamVibe?' : 'Already have an account?';
+      toggleAction.textContent = isLoginMode ? 'Sign up now.' : 'Sign in.';
+      emailInput.value = '';
+      passwordInput.value = '';
+      window.hideAlert();
+    });
+
+    // Handle Form Submission
+    authForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+      
+      if (!email || !password) return showAlert('Please fill in all fields.');
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Processing...';
+
+      try {
+        if (isLoginMode) {
+          // Sign In
+          await signInWithEmailAndPassword(auth, email, password);
+          // Redirection handled by onAuthStateChanged
+        } else {
+          // Sign Up
+          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
+          
+          // Save initial user data to Database
+          await set(ref(db, 'users/' + user.uid), {
+            email: user.email,
+            createdAt: new Date().toISOString()
           });
-          return;
+          // Redirection handled by onAuthStateChanged
+        }
+      } catch (error) {
+        console.error("Auth Error:", error);
+        submitBtn.disabled = false;
+        submitBtn.textContent = isLoginMode ? 'Sign In' : 'Create Account';
+        
+        // Friendly error messages
+        let msg = "An error occurred. Please try again.";
+        if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') msg = "Invalid email or password.";
+        if (error.code === 'auth/email-already-in-use') msg = "An account with this email already exists.";
+        if (error.code === 'auth/weak-password') msg = "Password should be at least 6 characters.";
+        
+        showAlert(msg);
+      }
+    });
+
+    // Initial Auth State Check
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        // User is signed in, check DB to ensure integrity before redirect
+        try {
+          const userRef = ref(db, `users/${user.uid}`);
+          await get(userRef); 
+          
+          // Smooth exit animation
+          document.body.style.opacity = '0';
+          setTimeout(() => {
+            window.location.href = "dashboard.html";
+          }, 500);
         } catch (error) {
-          console.error(`Auth attempt ${attempt} failed:`, error);
-          if (attempt === retries) {
-            let message = "Failed to connect to server. Please check your connection and try again.";
-            if (error.code === "permission-denied") {
-              message = "Permission denied. Please contact support.";
-            } else if (error.code === "unavailable") {
-              message = "Server is temporarily unavailable. Please try again later.";
-            }
-            showAlert(message, false);
-          } else {
-            await new Promise(resolve => setTimeout(resolve, delay));
-          }
+          console.error("Database read failed:", error);
+          if(isCheckingAuth) showAuthUI();
+        }
+      } else {
+        // No user is signed in, show Auth UI
+        if(isCheckingAuth) {
+          isCheckingAuth = false;
+          // Small delay to let the initial animation play out
+          setTimeout(showAuthUI, 1200); 
         }
       }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      checkAuthState();
     });
   </script>
 </body>
